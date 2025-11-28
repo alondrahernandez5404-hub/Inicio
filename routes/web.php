@@ -13,10 +13,16 @@ Route::get('/dashboard', function () {
 require __DIR__.'/settings.php';
 
 use App\Http\Controllers\UsuariosPublicosController;
-use App\Http\Controllers\DesarrolladoresController;
+use App\Http\Controllers\DesarrolladorLoginController;
 
 Route::post('/registro-publico', [UsuariosPublicosController::class, 'store'])->name('registro.publico');
-Route::post('/login-desarrollador', [DesarrolladoresController::class, 'login'])->name('login.desarrollador');
+
+// Login desarrollador
+Route::get('/login-desarrollador', [DesarrolladorLoginController::class, 'mostrarFormulario'])->name('desarrollador.login');
+Route::post('/login-desarrollador', [DesarrolladorLoginController::class, 'validar'])->name('desarrollador.validar');
+
+// Panel desarrollador
+Route::get('/panel-desarrollador', [DesarrolladorLoginController::class, 'panel'])->name('desarrollador.panel');
 
 // Temporales
 Route::get('/seleccion-terror', function() {
