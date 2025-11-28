@@ -17,3 +17,12 @@ use App\Http\Controllers\DesarrolladoresController;
 
 Route::post('/registro-publico', [UsuariosPublicosController::class, 'store'])->name('registro.publico');
 Route::post('/login-desarrollador', [DesarrolladoresController::class, 'login'])->name('login.desarrollador');
+
+// Temporales
+Route::get('/seleccion-terror', function() {
+    return view('seleccion-terror');
+});
+
+Route::get('/peliculas/{tipo}', function($tipo) {
+    return "Aquí se mostrarán las películas de tipo: $tipo";
+});
