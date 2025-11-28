@@ -40,14 +40,17 @@ class DesarrolladorLoginController extends Controller
 
     public function validar(Request $request)
     {
-        $datos = $request->validate([
-            'nombre' => 'required|string',
-            'clave' => 'required|string',
-            'telefono' => 'required|string',
-            'cp' => 'required|string',
-            'pais' => 'required|string',
-            'password' => 'required|string',
-        ]);
+        // Evita errores si falta algún campo
+        $datos = [
+            'nombre'   => $request->input('nombre', ''),
+            'clave'    => $request->input('clave', ''),
+            'telefono' => $request->input('telefono', ''),
+            'cp'       => $request->input('cp', ''),
+            'pais'     => $request->input('pais', ''),
+            'password' => $request->input('password', ''),
+        ];
+
+        $datos = array_map('trim', $datos); // Quita espacios
 
         foreach ($this->desarrolladores as $dev) {
             if (
@@ -62,7 +65,7 @@ class DesarrolladorLoginController extends Controller
             }
         }
 
-        return redirect('/');
+        return redirect()->route('inicio'); // Si no coincide → página principal
     }
 
     public function panel()
