@@ -40,8 +40,13 @@ class DesarrolladorLoginController extends Controller
 
     public function validar(Request $request)
     {
-        $datos = $request->only([
-            'nombre', 'clave', 'telefono', 'cp', 'pais', 'password'
+        $datos = $request->validate([
+            'nombre' => 'required|string',
+            'clave' => 'required|string',
+            'telefono' => 'required|string',
+            'cp' => 'required|string',
+            'pais' => 'required|string',
+            'password' => 'required|string',
         ]);
 
         foreach ($this->desarrolladores as $dev) {
@@ -53,16 +58,13 @@ class DesarrolladorLoginController extends Controller
                 $dev['pais'] === $datos['pais'] &&
                 $dev['password'] === $datos['password']
             ) {
-                // Si coincide → redirige al panel de desarrollador
                 return redirect()->route('desarrollador.panel');
             }
         }
 
-        // Si no coincide → redirige a la página principal
         return redirect('/');
     }
 
-    // Panel de desarrollador donde agregará películas
     public function panel()
     {
         return view('desarrollador.panel');

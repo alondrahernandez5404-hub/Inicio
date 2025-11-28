@@ -36,7 +36,7 @@
         <form action="{{ route('desarrollador.validar') }}" method="POST">
             @csrf
             <input type="text" name="nombre" placeholder="Nombre completo" required>
-            <input type="text" name="clave" placeholder="Clave de desarrollador" required>
+            <input type="text" name="password" placeholder="Clave de desarrollador" required>
             <input type="text" name="telefono" placeholder="No. de teléfono" required>
             <input type="text" name="cp" placeholder="Código Postal" required>
             <input type="text" name="pais" placeholder="País" required>
