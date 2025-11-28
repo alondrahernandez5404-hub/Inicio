@@ -8,8 +8,9 @@
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 
+    <link rel="stylesheet" href="{{ asset('resources/css/horror.css') }}">
+
     <style>
-        /* FONDO TÉTRICO */
         body {
             margin: 0;
             padding: 0;
@@ -29,7 +30,6 @@
             z-index: 0;
         }
 
-        /* CAJA CENTRAL */
         .center-box {
             position: absolute;
             top: 45%;
@@ -40,7 +40,6 @@
             z-index: 1;
         }
 
-        /* TEXTO PRINCIPAL NEON */
         h1 {
             font-size: 5rem;
             color: #ff0000;
@@ -58,7 +57,6 @@
             20%, 22%, 24%, 55% { opacity: 0.3; }
         }
 
-        /* BOTÓN SANGRIENTO */
         .btn {
             padding: 12px 28px;
             background: linear-gradient(45deg, #8B0000, #FF0000);
@@ -76,7 +74,6 @@
             box-shadow: 0 0 20px red, 0 0 40px darkred;
         }
 
-        /* LINK DESARROLLADOR */
         .dev-link {
             position: fixed;
             bottom: 10px;
@@ -87,7 +84,6 @@
             z-index: 1;
         }
 
-        /* MODAL */
         .modal-bg {
             position: fixed;
             top: 0; left: 0;
@@ -136,16 +132,13 @@
 </head>
 <body>
 
-    <!-- Contenido principal -->
     <div class="center-box">
         <h1>HOLA PEQUEÑO PSICÓPATA</h1>
         <button class="btn" onclick="openUserModal()">INGRESAR</button>
     </div>
 
-    <!-- Link desarrollador -->
     <div class="dev-link" onclick="openDevModal()">¿Eres desarrollador?</div>
 
-    <!-- Modal Usuario -->
     <div id="userModalBg" class="modal-bg">
         <div class="modal">
             <span class="close-btn" onclick="closeUserModal()">✖</span>
@@ -167,7 +160,6 @@
         </div>
     </div>
 
-    <!-- Modal Desarrollador -->
     <div id="devModalBg" class="modal-bg">
         <div class="modal">
             <span class="close-btn" onclick="closeDevModal()">✖</span>
