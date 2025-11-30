@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horror World</title>
 
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.ts')
+    {{-- Vite carga CSS y JS compilados correctamente --}}
+    @vite(['resources/css/app.css', 'resources/js/app.ts'])
 
+    {{-- Estilos adicionales si los quieres, opcional --}}
     <link rel="stylesheet" href="{{ asset('resources/css/horror.css') }}">
 
     <style>
@@ -167,17 +168,13 @@
             <input type="text" name="nombre" required>
 
             <label>Correo electrónico:</label>
-            <input 
-                type="email" 
-                name="correo" 
-                pattern=".+@gmail\.com" 
-                required
-                oninvalid="this.setCustomValidity('Correo electronico no valido')"
+            <input type="email" name="correo" pattern=".+@gmail\.com" required
+                oninvalid="this.setCustomValidity('Correo electrónico no válido')"
                 oninput="this.setCustomValidity('')"
             />
 
             <label>País:</label>
-            <select name="pais" id="pais">
+            <select name="pais" required>
                 <option value="" disabled selected>Selecciona tu país</option>
                 <option value="México">México</option>
                 <option value="Estados Unidos">Estados Unidos</option>
@@ -199,20 +196,6 @@
                 <option value="Egipto">Egipto</option>
                 <option value="Corea del Sur">Corea del Sur</option>
                 <option value="Nueva Zelanda">Nueva Zelanda</option>
-                <option value="Noruega">Noruega</option>
-                <option value="Suecia">Suecia</option>
-                <option value="Finlandia">Finlandia</option>
-                <option value="Grecia">Grecia</option>
-                <option value="Portugal">Portugal</option>
-                <option value="Países Bajos">Países Bajos</option>
-                <option value="Bélgica">Bélgica</option>
-                <option value="Suiza">Suiza</option>
-                <option value="Irlanda">Irlanda</option>
-                <option value="Turquía">Turquía</option>
-                <option value="Tailandia">Tailandia</option>
-                <option value="Filipinas">Filipinas</option>
-                <option value="Vietnam">Vietnam</option>
-                <option value="Indonesia">Indonesia</option>
             </select>
 
             <button class="btn" style="margin-top: 15px; width:100%;">Entrar</button>
@@ -252,10 +235,10 @@
 </div>
 
 <script>
-    function openUserModal() { document.getElementById('userModalBg').style.display = 'flex'; }
-    function closeUserModal() { document.getElementById('userModalBg').style.display = 'none'; }
-    function openDevModal() { document.getElementById('devModalBg').style.display = 'flex'; }
-    function closeDevModal() { document.getElementById('devModalBg').style.display = 'none'; }
+function openUserModal() { document.getElementById('userModalBg').style.display = 'flex'; }
+function closeUserModal() { document.getElementById('userModalBg').style.display = 'none'; }
+function openDevModal() { document.getElementById('devModalBg').style.display = 'flex'; }
+function closeDevModal() { document.getElementById('devModalBg').style.display = 'none'; }
 </script>
 
 </body>
