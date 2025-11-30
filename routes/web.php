@@ -31,11 +31,9 @@ Route::get('/login-desarrollador', function () {
     return Inertia::render('DevLogin');
 })->name('desarrollador.login');
 
-
 // Validar login desarrollador (controller)
 Route::post('/login-desarrollador', [DesarrolladorLoginController::class, 'validar'])
     ->name('desarrollador.validar');
-
 
 // Panel del desarrollador (Vue)
 Route::get('/panel-desarrollador', function () {
@@ -43,11 +41,21 @@ Route::get('/panel-desarrollador', function () {
 })->middleware('auth.desarrollador')
   ->name('desarrollador.panel');
 
-
 // Logout desarrollador
 Route::post('/desarrollador/logout', [DesarrolladorLoginController::class, 'logout'])
     ->middleware('auth.desarrollador')
     ->name('desarrollador.logout');
+
+
+// ==============================================
+//                VISTA CRUD DE PELÍCULAS
+// ==============================================
+
+// Página Vue + Inertia para manejar películas
+Route::get('/peliculas', function () {
+    return Inertia::render('Peliculas');
+})->middleware('auth.desarrollador')
+  ->name('peliculas.vista');
 
 
 // ==============================================
