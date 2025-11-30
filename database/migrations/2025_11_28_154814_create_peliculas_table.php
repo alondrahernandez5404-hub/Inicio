@@ -9,21 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::create('peliculas', function (Blueprint $table) {
-        $table->id();
-        $table->string('titulo');
-        $table->string('tipo'); // slasher, psicologico, zombies, fantasmas
-        $table->string('clasificacion')->nullable();
-        $table->string('pais')->nullable();
-        $table->string('duracion')->nullable();
-        $table->string('actores')->nullable();
-        $table->string('nominaciones')->nullable();
-        $table->string('plataforma')->nullable();
-        $table->timestamps();
-    });
-}
+    public function up(): void
+    {
+        Schema::create('peliculas', function (Blueprint $table) {
+            $table->id();
+            $table->string('titulo');
+            $table->string('tipo'); // slasher, psicologico, zombies, fantasmas
+            $table->string('clasificacion')->nullable();
+            $table->string('pais')->nullable();
+            $table->string('duracion')->nullable();
+            $table->string('actores')->nullable();
+            $table->string('nominaciones')->nullable();
+            $table->string('plataforma')->nullable();
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
