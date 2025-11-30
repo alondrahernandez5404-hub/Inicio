@@ -10,8 +10,7 @@ class AuthDesarrollador
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // Si NO está logueado como desarrollador → redirigir
-        if (!session()->has('desarrollador_id')) {
+        if (!session()->has('desarrollador')) {
             return redirect()->route('desarrollador.login');
         }
 

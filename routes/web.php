@@ -26,24 +26,26 @@ Route::post('/registro-publico', [UsuariosPublicosController::class, 'store'])
 //      🔥 LOGIN Y PANEL DEL DESARROLLADOR (VUE)
 // ==============================================
 
-// Mostrar login desarrollador (Vue)
+// Página de login del desarrollador (Vue)
 Route::get('/login-desarrollador', function () {
     return Inertia::render('DevLogin');
-})->name('desarrollador.login');
+})->middleware('web')->name('desarrollador.login');
 
-// Validar login desarrollador (controller)
+// Validar login desarrollador
 Route::post('/login-desarrollador', [DesarrolladorLoginController::class, 'validar'])
+    ->middleware('web')
     ->name('desarrollador.validar');
 
 // Panel del desarrollador (Vue)
 Route::get('/panel-desarrollador', function () {
     return Inertia::render('DevPanel');
-})->middleware('auth.desarrollador')
-  ->name('desarrollador.panel');
+})
+->middleware(['web', 'auth.desarrollador'])
+->name('desarrollador.panel');
 
 // Logout desarrollador
 Route::post('/desarrollador/logout', [DesarrolladorLoginController::class, 'logout'])
-    ->middleware('auth.desarrollador')
+    ->middleware(['web', 'auth.desarrollador'])
     ->name('desarrollador.logout');
 
 
@@ -51,20 +53,17 @@ Route::post('/desarrollador/logout', [DesarrolladorLoginController::class, 'logo
 //                VISTA CRUD DE PELÍCULAS
 // ==============================================
 
-// Página Vue + Inertia para manejar películas
 Route::get('/peliculas', function () {
     return Inertia::render('Peliculas');
-})->middleware('auth.desarrollador')
-  ->name('peliculas.vista');
+})
+->middleware(['web', 'auth.desarrollador'])
+->name('peliculas.vista');
 
 
 // ==============================================
 //                RUTAS TEMPORALES
 // ==============================================
+
 Route::get('/seleccion-terror', function() {
     return view('seleccion-terror');
-});
-
-Route::get('/peliculas/{tipo}', function($tipo) {
-    return "Aquí se mostrarán las películas de tipo: $tipo";
 });
