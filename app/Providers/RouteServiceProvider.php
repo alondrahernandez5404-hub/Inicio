@@ -7,14 +7,10 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * La ruta a la que los usuarios serán redirigidos después de iniciar sesión.
-     */
-    public const HOME = '/home'; // <-- Aquí defines la constante HOME
+  
+    public const HOME = '/dashboard'; // <-- Cambié a /dashboard
 
-    /**
-     * Define la configuración de rutas del proyecto.
-     */
+
     public function boot(): void
     {
         $this->configureRateLimiting();
@@ -29,9 +25,6 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Configura la limitación de solicitudes si usas API.
-     */
     protected function configureRateLimiting(): void
     {
         //

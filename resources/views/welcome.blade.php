@@ -6,7 +6,7 @@
     <title>Horror World</title>
 
     @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    @vite('resources/js/app.ts')
 
     <link rel="stylesheet" href="{{ asset('resources/css/horror.css') }}">
 
