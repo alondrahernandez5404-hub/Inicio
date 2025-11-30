@@ -3,94 +3,64 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 
 class DesarrolladorLoginController extends Controller
 {
-    // Tus desarrolladores "falsos"
-    private array $desarrolladores = [
-        [
-            'nombre_completo' => 'Estefania Montenegro Brava',
-            'clave'           => '35149',
-            'telefono'        => '3355791011',
-            'cp'              => '42125',
-            'pais'            => 'Suiza',
-            'password'        => '2EF25',
-        ],
-        [
-            'nombre_completo' => 'Carolina Lopez Diaz',
-            'clave'           => '83273',
-            'telefono'        => '9953131250',
-            'cp'              => '36531',
-            'pais'            => 'España',
-            'password'        => '7D28A',
-        ],
-        [
-            'nombre_completo' => 'Nelly Lara Neri',
-            'clave'           => '67210',
-            'telefono'        => '7285337900',
-            'cp'              => '91599',
-            'pais'            => 'Irlanda',
-            'password'        => 'L28S5',
-        ],
-    ];
-
-    // Muestra el formulario de login
+    // Mostrar formulario de login (aunque ahora lo carga Vue, igual lo dejamos por claridad)
     public function mostrarFormulario()
     {
-        return view('desarrollador.login');
+        return Inertia::render('DevLogin');
     }
 
-    // Procesa el POST del login
+    // Validar login del desarrollador
     public function validar(Request $request)
     {
-        // Validación
-        $datos = $request->validate([
-            'nombre_completo' => 'required|string',
-            'clave'           => 'required|string',
-            'telefono'        => 'required|string',
-            'cp'              => 'required|string',
-            'pais'            => 'required|string',
-            'password'        => 'required|string',
+        $request->validate([
+            'clave' => 'required',
+            'password' => 'required',
         ]);
 
-        // Normalizamos
-        $datosNorm = array_map(fn($v) => mb_strtolower(trim((string)$v)), $datos);
+        // Credenciales HARDCODEADAS — cámbialas si quieres
+        $devClave = 'dev123';
+        $devPass = '12345';
 
-        // Comparamos contra la lista de desarrolladores
-        foreach ($this->desarrolladores as $dev) {
-
-            $devNorm = array_map(fn($v) => mb_strtolower(trim((string)$v)), $dev);
-
-            if (
-                $devNorm['nombre_completo'] === $datosNorm['nombre_completo'] &&
-                $devNorm['clave']           === $datosNorm['clave'] &&
-                $devNorm['telefono']        === $datosNorm['telefono'] &&
-                $devNorm['cp']              === $datosNorm['cp'] &&
-                $devNorm['pais']            === $datosNorm['pais'] &&
-                $devNorm['password']        === $datosNorm['password']
-            ) {
-
-                // Guardamos sesión
-                session([
-                    'desarrollador_nombre' => $dev['nombre_completo']
-                ]);
-
-                return redirect()->route('desarrollador.panel');
-            }
+        if ($request->clave !== $devClave || $request->password !== $devPass) {
+            return back()->withErrors([
+                'clave' => 'Credenciales incorrectas',
+            ]);
         }
 
-        // Si no coincide → volver al inicio
-        return redirect()->route('inicio');
+        // Guardamos sesión especial del desarrollador
+        Session::put('desarrollador', [
+            'nombre' => 'Desarrollador',
+            'clave' => $request->clave
+        ]);
+
+        return redirect()->route('desarrollador.panel');
     }
 
+    // Panel del desarrollador (ahora lo maneja Vue)
     public function panel()
     {
-        return view('desarrollador.panel');
+        // Verificar sesión
+        if (!Session::has('desarrollador')) {
+            return redirect()->route('desarrollador.login');
+        }
+
+        $nombre = Session::get('desarrollador.nombre');
+
+        return Inertia::render('DevPanel', [
+            'nombre' => $nombre,
+        ]);
     }
 
-    public function logout(Request $request)
+    // Logout desarrollador
+    public function logout()
     {
-        $request->session()->forget(['desarrollador_nombre']);
-        return redirect()->route('inicio');
+        Session::forget('desarrollador');
+
+        return redirect()->route('desarrollador.login');
     }
 }
