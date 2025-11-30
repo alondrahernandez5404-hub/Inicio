@@ -15,31 +15,35 @@ class DesarrolladorLoginController extends Controller
     }
 
     // Validar login del desarrollador
-    public function validar(Request $request)
-    {
-        $request->validate([
-            'clave' => 'required',
-            'password' => 'required',
+   public function validar(Request $request)
+{
+    $request->validate([
+        'clave' => 'required',
+        'password' => 'required',
+    ]);
+
+    // Credenciales HARDCODEADAS — cámbialas si quieres
+    $devClave = 'dev123';
+    $devPass = '12345';
+
+    if ($request->clave !== $devClave || $request->password !== $devPass) {
+        return back()->withErrors([
+            'clave' => 'Credenciales incorrectas',
         ]);
-
-        // Credenciales HARDCODEADAS — cámbialas si quieres
-        $devClave = 'dev123';
-        $devPass = '12345';
-
-        if ($request->clave !== $devClave || $request->password !== $devPass) {
-            return back()->withErrors([
-                'clave' => 'Credenciales incorrectas',
-            ]);
-        }
-
-        // Guardamos sesión especial del desarrollador
-        Session::put('desarrollador', [
-            'nombre' => 'Desarrollador',
-            'clave' => $request->clave
-        ]);
-
-        return redirect()->route('desarrollador.panel');
     }
+
+    // Guardamos en sesión
+    session()->put('desarrollador', [
+        'nombre' => 'Desarrollador',
+        'clave' => $request->clave
+    ]);
+
+    // 🔥 PRUEBA: ¿Se guardó realmente la sesión?
+    return response()->json([
+        'session' => session()->all(),
+    ]);
+}
+
 
     // Panel del desarrollador (ahora lo maneja Vue)
     public function panel()
