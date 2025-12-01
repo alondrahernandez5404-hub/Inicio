@@ -3,68 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Session;
 
 class DesarrolladorLoginController extends Controller
 {
-    // Mostrar formulario de login (aunque ahora lo carga Vue, igual lo dejamos por claridad)
-    public function mostrarFormulario()
+    // Validar login (cualquiera puede entrar)
+    public function validar(Request $request)
     {
-        return Inertia::render('DevLogin');
-    }
+        // Guardamos en sesión sin validar nada
+        Session::put('desarrollador', [
+            'acceso' => true,
+            'nombre' => $request->clave ?? 'Desarrollador'
+        ]);
 
-    // Validar login del desarrollador
-   public function validar(Request $request)
-{
-    $request->validate([
-        'clave' => 'required',
-        'password' => 'required',
-    ]);
-
-    // Credenciales HARDCODEADAS — cámbialas si quieres
-    $devClave = 'dev123';
-    $devPass = '12345';
-
-    if ($request->clave !== $devClave || $request->password !== $devPass) {
-        return back()->withErrors([
-            'clave' => 'Credenciales incorrectas',
+        // Respuesta para Inertia + useForm
+        return response()->json([
+            'success' => true,
+            'redirect' => route('desarrollador.panel')
         ]);
     }
 
-    // Guardamos en sesión
-    session()->put('desarrollador', [
-        'nombre' => 'Desarrollador',
-        'clave' => $request->clave
-    ]);
-
-    // 🔥 PRUEBA: ¿Se guardó realmente la sesión?
-    return response()->json([
-        'session' => session()->all(),
-    ]);
-}
-
-
-    // Panel del desarrollador (ahora lo maneja Vue)
+    // Panel del desarrollador
     public function panel()
     {
-        // Verificar sesión
         if (!Session::has('desarrollador')) {
-            return redirect()->route('desarrollador.login');
+            return Inertia::location(route('desarrollador.login'));
         }
 
-        $nombre = Session::get('desarrollador.nombre');
+        $nombre = Session::get('desarrollador.nombre', 'Desarrollador');
 
         return Inertia::render('DevPanel', [
-            'nombre' => $nombre,
+            'nombre' => $nombre
         ]);
     }
 
-    // Logout desarrollador
+    // Logout
     public function logout()
     {
         Session::forget('desarrollador');
-
-        return redirect()->route('desarrollador.login');
+        return Inertia::location(route('desarrollador.login'));
     }
 }
