@@ -18,5 +18,7 @@ class Pelicula extends Model
         'actores',
         'nominaciones',
         'plataforma',
+        'descripcion',
+        'imagen',
     ];
 }
