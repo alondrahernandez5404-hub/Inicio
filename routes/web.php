@@ -66,3 +66,7 @@ Route::get('/peliculas', function () {
 
 Route::get('/peliculas-usuario', [UsuarioController::class, 'verPeliculas'])
     ->name('peliculas.usuario');
+
+    Route::get('/seleccion-terror', function () {
+    return Inertia::render('SeleccionTerror');
+})->name('seleccion.terror');

@@ -9,6 +9,11 @@ class UsuarioPublico extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'pais', 'correo'];
-}
+    protected $table = 'usuarios_publicos'; // ← ESTA LÍNEA ES LA CLAVE
 
+    protected $fillable = [
+        'nombre',
+        'pais',
+        'correo',
+    ];
+}
