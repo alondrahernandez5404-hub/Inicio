@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UsuariosPublicosController;
 use App\Http\Controllers\DesarrolladorLoginController;
+use App\Http\Controllers\UsuarioController; // <-- AGREGADO
 
 // ==============================================
 //          PÁGINA PRINCIPAL (Vue + Inertia)
 // ==============================================
 Route::get('/', function () {
-    return Inertia::render('Home'); // <-- reemplaza welcome.blade.php por Home.vue
+    return Inertia::render('Home');
 })->name('inicio');
 
 // ==============================================
@@ -29,18 +30,18 @@ Route::post('/registro-publico', [UsuariosPublicosController::class, 'store'])
 //      LOGIN Y PANEL DEL DESARROLLADOR (Vue + Inertia)
 // ==============================================
 
-// Página de login del desarrollador (Vue)
+// Página de login del desarrollador
 Route::get('/login-desarrollador', function () {
-    return Inertia::render('DevLogin'); // <-- tu DevLogin.vue
+    return Inertia::render('DevLogin');
 })->name('desarrollador.login');
 
 // Validar login desarrollador
 Route::post('/login-desarrollador', [DesarrolladorLoginController::class, 'validar'])
     ->name('desarrollador.validar');
 
-// Panel del desarrollador (Vue)
+// Panel del desarrollador
 Route::get('/panel-desarrollador', function () {
-    return Inertia::render('DevPanel'); // <-- tu DevPanel.vue
+    return Inertia::render('DevPanel');
 })
 ->middleware(['auth.desarrollador'])
 ->name('desarrollador.panel');
@@ -58,3 +59,10 @@ Route::get('/peliculas', function () {
 })
 ->middleware(['auth.desarrollador'])
 ->name('peliculas.vista');
+
+// ==============================================
+//      PELÍCULAS VISIBLES PARA LOS USUARIOS
+// ==============================================
+
+Route::get('/peliculas-usuario', [UsuarioController::class, 'verPeliculas'])
+    ->name('peliculas.usuario');
